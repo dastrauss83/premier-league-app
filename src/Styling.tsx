@@ -26,4 +26,17 @@ export const useStyles = makeStyles((theme) => ({
   navbarButton: {
     color: blue[800],
   },
+  filtersComp: {
+    margin: "100px 0 100px 0",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  filters: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: "50px",
+  },
 }));
