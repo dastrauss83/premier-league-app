@@ -8,8 +8,8 @@ import { theme } from "./Styling";
 import { useState } from "react";
 
 const App = () => {
-  const [season, setSeason] = useState<number>();
-  const [matchDay, setMatchDay] = useState<number>();
+  const [season, setSeason] = useState<number | null>(null);
+  const [matchDay, setMatchDay] = useState<number | null>(null);
 
   return (
     <ThemeProvider theme={theme}>

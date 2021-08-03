@@ -1,11 +1,13 @@
 import { TextField, Button, Typography } from "@material-ui/core";
+import { Autocomplete } from "@material-ui/lab";
+import React from "react";
 import { useState } from "react";
 import { useStyles } from "../Styling";
 
 type FiltersProps = {
-  season: number | void;
+  season: number | null;
   setSeason: (e?: any) => void;
-  matchDay: number | void;
+  matchDay: number | null;
   setMatchDay: (e?: any) => void;
 };
 
@@ -19,14 +21,16 @@ export const Filters: React.FC<FiltersProps> = ({
 
   const [error, setError] = useState<boolean>(false);
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    if (season > 2020 || matchDay > 38 || season < 2018 || matchDay < 1) {
-      setError(true);
-      setSeason();
-      setMatchDay();
-    } else {
-      getData();
+  const handleSubmit = () => {
+    if (season && matchDay) {
+      if (season > 2020 || matchDay > 38 || season < 2018 || matchDay < 1) {
+        setError(true);
+        setSeason("");
+        setMatchDay("");
+      } else {
+        setError(false);
+        getData();
+      }
     }
   };
 
@@ -41,10 +45,38 @@ export const Filters: React.FC<FiltersProps> = ({
     console.log(data);
   };
 
+  const handleSeason = (e: any) => {
+    setSeason(e.target.value);
+  };
+
   return (
     <div className={classes.filtersComp}>
       <div className={classes.filters}>
-        <TextField
+        <Autocomplete
+          value={season}
+          onChange={handleSeason}
+          options={[2018, 2019, 2020, 2021]}
+          getOptionLabel={(option: number) => String(option)}
+          renderOption={(option) => <React.Fragment>{option}</React.Fragment>}
+          renderInput={(params) => (
+            <TextField {...params} label="Season" color="secondary" />
+          )}
+          style={{ marginRight: 30, width: 200 }}
+        />
+
+        <Autocomplete
+          value={matchDay}
+          onChange={(e: any) => setMatchDay(e.target.value)}
+          options={[2018, 2019, 2020, 2021]}
+          getOptionLabel={(option: number) => String(option)}
+          renderOption={(option) => option}
+          renderInput={(params) => (
+            <TextField {...params} label="Match Day" color="secondary" />
+          )}
+          style={{ width: 200 }}
+        />
+
+        {/* <TextField
           label="Season"
           type="number"
           required
@@ -60,11 +92,15 @@ export const Filters: React.FC<FiltersProps> = ({
           color="secondary"
           onChange={(e) => setMatchDay(e.target.value)}
           label="Match Day"
-        />
+        /> */}
       </div>
       {error ? (
-        <Typography gutterBottom style={{ marginTop: "-50px" }} color="primary">
-          Error: Please enter an appropriate Match Day from a Season after 1980
+        <Typography
+          gutterBottom
+          style={{ marginTop: "-50px", marginBottom: "26px" }}
+          color="primary"
+        >
+          Error: Please enter an appropriate Match Day from a Season after 2018
         </Typography>
       ) : null}
       <Button variant="outlined" color="secondary" onClick={handleSubmit}>
