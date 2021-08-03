@@ -1,11 +1,16 @@
+import { ThemeProvider } from "@material-ui/core";
 import React from "react";
 import "./App.css";
+import { Navbar } from "./Components/Navbar";
+import { Table } from "./Components/Table";
+import { theme } from "./Styling";
 
 const App = () => {
   return (
-    <>
-      <h1>Hello World</h1>
-    </>
+    <ThemeProvider theme={theme}>
+      <Navbar />
+      <Table />
+    </ThemeProvider>
   );
 };
 
